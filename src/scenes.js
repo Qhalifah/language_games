@@ -1,12 +1,19 @@
+//================SOME CONSTANTS AND PROPERTIES
 
-var cardNum = 4;
-var numOfCols = Math.floor(Game.width()/(CARD_WIDTH+PADDING));
-var numOfRows = Math.ceil(cardNum/numOfCols);
+var cardNum = 0;
 
+var numOfCols = Math.floor((Game.width() - (LABEL_WIDTH+PADDING))/(CARD_WIDTH+PADDING));
+var numOfRows = 0;
 
-var cardFieldHeight = numOfRows*(CARD_HEIGHT+PADDING);
+var cardFieldHeight = 0;
+var memoryCardFieldHeight = 0;
 var canvasCentre = Game.width()/2;
 
+//the game chosen
+var Cards;
+
+
+//======displaying various elements
 
 function displayCardsRandomly(cardClass){
 	shuffledArray = createShuffledCardArray();   
@@ -20,12 +27,17 @@ function displayCardsRandomly(cardClass){
    		else{
    			var colIndex = divResidue - 1;	
    		}
-
+   		
    		var curCardName = 'spr_card'+(shuffledArray[curCardNum-1]);
    		var curCard = createCardByIndex(curCardName, colIndex, rowIndex);
         curCard.addComponent(cardClass); 
         if(cardClass=='CardAudio'){
-        	attachLabelToCard(curCard,canvasCentre, curCardNum*PADDING+cardFieldHeight);
+        	attachLabelToCard(curCard,
+        		Game.width() - (LABEL_WIDTH+PADDING), 
+        		curCardNum*(PADDING+LABEL_HEIGHT));
+        		
+        		
+            
         }
    }
 }
@@ -34,9 +46,10 @@ function displayCardsRandomly(cardClass){
 function displayMemoryCardsRandomly(){
 	shuffledArray = createMemoryArray();
 	var numOfCards = shuffledArray.length;   
+	var rowIndex= 0;
     for(var curCardNum=1;curCardNum<=numOfCards;++curCardNum){
       	    
-   		var rowIndex = Math.ceil(curCardNum/numOfCols)-1;
+   		rowIndex = Math.ceil(curCardNum/numOfCols)-1;
    		var divResidue = (curCardNum % numOfCols);
    		if(divResidue ==0){
    			var colIndex = numOfCols - 1;	
@@ -48,27 +61,34 @@ function displayMemoryCardsRandomly(){
    		var curCard = createCardByIndex(curCardName, colIndex, rowIndex);
         curCard.addComponent('CardMemory'); 
    }
+   memoryCardFieldHeight = (rowIndex+1)*(CARD_HEIGHT+PADDING);
 }
 
-function displayBackToMenuButton(sceneTitle){
-	displayButton('В меню', 'Menu', BUTTON_WIDTH+PADDING, Game.height()-BUTTON_HEIGHT-BUTTON_PADDING);  
+function displayBackToMainMenuButton(buttonY){
+	displayButton('К выбору темы', 'MainMenu', BUTTON_WIDTH+PADDING, buttonY);  
 }
 
-function displayBackwardButton(sceneTitle){ 
-	displayButton('<<Назад', sceneTitle, 2*(BUTTON_WIDTH+PADDING), Game.height()-BUTTON_HEIGHT-BUTTON_PADDING); 
+function displayBackToMenuButton(buttonY){
+	displayButton('В меню', 'Menu', 2*(BUTTON_WIDTH+PADDING), buttonY);  
 }
 
-function displayForwardButton(sceneTitle){
-	displayButton('Вперед>>', sceneTitle, 3*(BUTTON_WIDTH+PADDING), Game.height()-BUTTON_HEIGHT-BUTTON_PADDING);  
+function displayBackwardButton(sceneTitle, buttonY){ 
+	displayButton('<<Назад', sceneTitle, 3*(BUTTON_WIDTH+PADDING), buttonY); 
+}
+
+function displayForwardButton(sceneTitle, buttonY){
+	displayButton('Вперед>>', sceneTitle, 4*(BUTTON_WIDTH+PADDING), buttonY);  
+}
+
+function displayStartGameButton(sceneTitle, buttonY){
+	displayButton('Начать', sceneTitle, 4*(BUTTON_WIDTH+PADDING), buttonY);  
 }
 
 
 function displayButtonArray(titleArray){
-	//var buttonTotalHeight = (BUTTON_HEIGHT + BUTTON_PADDING) * titleArray.length; 
 	for(var i=0;i<titleArray.length;++i){
 		displayButton(titleArray[i]['title'], titleArray[i]['scene'], 
-									BUTTON_WIDTH+PADDING, /*Game.height()-buttonTotalHeight + */
-																		BUTTON_PADDING + (BUTTON_HEIGHT+BUTTON_PADDING)*i); 
+									BUTTON_WIDTH+PADDING, BUTTON_PADDING + (BUTTON_HEIGHT+BUTTON_PADDING)*i); 
 	}
 }
 
@@ -77,7 +97,28 @@ function displayButton(buttonLabel, sceneTitle, buttonX, buttonY){
 								function(){Crafty.scene(sceneTitle)}).setText(buttonLabel);
 }
 
+function displayGameTypeButton(buttonLabel, cardsType, buttonX, buttonY){
+	Crafty.e('Button').attr({x:buttonX, y:buttonY}).bind('Click', 
+								function(){
+									Cards = cardsType;
+									cardNum = 0;
+							        for(obj in Cards){
+							        	++cardNum;
+							        }
+							        numOfRows = Math.ceil(cardNum/numOfCols);
+							        cardFieldHeight = numOfRows*(CARD_HEIGHT+PADDING +LABEL_HEIGHT);
+									Crafty.scene('ShowAssets');
+								}).setText(buttonLabel);
+}
 
+function displayCustomText(text, textX, textY){
+	Crafty.e('2D, DOM, Text')
+        .text(text)
+        .attr({ x: textX, y: textY, w:500})
+        .textFont({family:'Cambria', size: '20px'});
+}
+
+//utils
 
 function createShuffledCardArray(){
 	var shuffledArray = Array();
@@ -108,7 +149,8 @@ function createMemoryArray(){
 function createCardByIndex(curCardName, colIndex, rowIndex){
 	return Crafty.e(curCardName+', 2D, DOM, Mouse')
                 .setName(curCardName)
-                .attr({x: colIndex*(CARD_WIDTH + PADDING), y: rowIndex*(CARD_HEIGHT + PADDING)
+                .attr({x: colIndex*(CARD_WIDTH + PADDING) + OFFSET, 
+                	y: rowIndex*(CARD_HEIGHT + PADDING)
                 	, w:CARD_WIDTH, h: CARD_HEIGHT});
 }
 
@@ -119,32 +161,95 @@ function attachLabelToCard(curCard, labelX, labelY){
 	             labelX, labelY)	
 }
 
+function initScene(){
+	Crafty.audio.stop();
+}
+
+
+//==========SCENES
+
+/*
+ * The main menu
+ */
+
+
+Crafty.scene('MainMenu', function() {
+	Crafty.audio.stop();
+    displayGameTypeButton('Животные и птицы',CardsAnimals,PADDING, PADDING);
+    displayGameTypeButton('Грибы и ягоды',CardsPlants,PADDING, 2*PADDING+BUTTON_HEIGHT);
+    displayGameTypeButton('Еда',CardsFood,PADDING, 3*PADDING+2*BUTTON_HEIGHT);
+    displayGameTypeButton('Материальная культура',CardsMaterialCulture,PADDING, 4*PADDING+3*BUTTON_HEIGHT);
+    displayGameTypeButton('Семья-1',CardsFamily1,PADDING, 5*PADDING+4*BUTTON_HEIGHT);
+});
+
+
+/**
+ *The menu 
+ */
+
 
 Crafty.scene('Menu', function() {
 	var titleArray = [{'title': 'Выучить слова', 
-					    'scene': 'ShowCards'},
-					  {'title': 'Упражнение1', 
-					    'scene': 'AddLabel'},
-					   {'title': 'Упражнение2', 
-					    'scene': 'ClickCard'},
+					    'scene': 'ShowCardsDescription'},
+					  {'title': 'Уровень 1', 
+					    'scene': 'AddLabelDescription'},
+					   {'title': 'Уровень 2', 
+					    'scene': 'ClickCardDescription'},
 					   {'title': 'Memory', 
-					    'scene': 'Memory'}  
+					    'scene': 'MemoryDescription'}  
 	
 	
 	];
 	Crafty.audio.stop();
     displayButtonArray(titleArray);
+    
+    displayBackToMainMenuButton(titleArray.length*(BUTTON_HEIGHT+BUTTON_PADDING)+BUTTON_PADDING);
 });
+
+/**
+ * ShowCardsDescription
+ */
+
+Crafty.scene('ShowCardsDescription', function() {
+	displayBackToMainMenuButton(cardFieldHeight);
+	displayBackToMenuButton(cardFieldHeight);
+	displayCustomText('Нажмите на изображение, чтобы услышать, как оно произносится', 
+						Game.width()/2, PADDING);
+	displayStartGameButton('ShowCards',cardFieldHeight);
+});
+
 
 /**
  *shows the cards and adds their labels on click 
  */
 
 Crafty.scene('ShowCards', function() {
+    initScene();  
+    
+        
+        
     displayCardsRandomly('CardAudioLabel');
-    displayForwardButton('AddLabel');
-    displayBackToMenuButton();
+    displayForwardButton('AddLabelDescription',cardFieldHeight);
+    
+    displayBackToMainMenuButton(cardFieldHeight);
+    displayBackToMenuButton(cardFieldHeight);
+    
+    
 });
+
+/**
+ * AddLabelDescription
+ */
+
+Crafty.scene('AddLabelDescription', function() {
+	displayBackToMainMenuButton(cardFieldHeight);
+	displayBackToMenuButton(cardFieldHeight);
+	
+	displayCustomText('Поднесите название к картинке', 
+						Game.width()/2, PADDING);
+	displayStartGameButton('AddLabel',cardFieldHeight);
+});
+
 
 /**
  *the player should match a label with a card 
@@ -152,12 +257,18 @@ Crafty.scene('ShowCards', function() {
 
 
 Crafty.scene('AddLabel', function() {    
+    initScene();  
+    
+    //cards 
+    
     displayCardsRandomly('CardAudio');
+    //controls
+    displayBackwardButton('ShowCards',cardFieldHeight);  
+    displayForwardButton('ClickCard', cardFieldHeight); 
     
-    displayBackwardButton('ShowCards');  
-    displayForwardButton('ClickCard'); 
-    displayBackToMenuButton();
-    
+    displayBackToMainMenuButton(cardFieldHeight);
+    displayBackToMenuButton(cardFieldHeight);
+    //game logic
     this.labelsNotFound = cardNum;
     this.bind('LabelFound', function(){
     	--this.labelsNotFound;
@@ -168,6 +279,20 @@ Crafty.scene('AddLabel', function() {
     
 });
 
+/**
+ * ClickCardDescription
+ */
+
+Crafty.scene('ClickCardDescription', function() {
+	displayBackToMainMenuButton(cardFieldHeight);
+	displayBackToMenuButton(cardFieldHeight);
+	
+	displayCustomText('Нажмите на картинку, название которой произносят', 
+						Game.width()/2, PADDING);
+	displayStartGameButton('ClickCard',cardFieldHeight);
+});
+
+
 
 /**
  *the player should match the word being pronounced with a card 
@@ -176,11 +301,17 @@ Crafty.scene('AddLabel', function() {
 
 
 Crafty.scene('ClickCard', function() {
-	  
+	
+	initScene();
+	
     displayCardsRandomly('CardClickBySound');
-    displayBackwardButton('AddLabel');
-    displayForwardButton('Memory');
-    displayBackToMenuButton();
+	  
+    
+    displayBackwardButton('AddLabelDescription',cardFieldHeight);
+    displayForwardButton('MemoryDescription', cardFieldHeight);
+    
+    displayBackToMainMenuButton(cardFieldHeight);
+    displayBackToMenuButton(cardFieldHeight);
     
     //play the first word
     var i=0;
@@ -190,18 +321,36 @@ Crafty.scene('ClickCard', function() {
     this.bind('CardClicked', function(curCard){
     	var cardName = curCard._entityName; 
     	if(cardName==this.curCardName){
-    		attachLabelToCard(curCard, curCard.x, curCard.y+CARD_HEIGHT);
+    		attachLabelToCard(curCard, curCard.x+((CARD_WIDTH-LABEL_WIDTH)/2), 
+    												curCard.y+CARD_HEIGHT);
     		
     		++i;
     		if(i==cardNum){
-    			alert('you win!');
     			this.unbind('CardClicked');
     		}
-    		this.curCardName = 'spr_card'+(i+1);
-    		Crafty.audio.play(this.curCardName+'_audio');
+    		else{
+    			this.curCardName = 'spr_card'+(i+1);
+    			Crafty.audio.play(this.curCardName+'_audio');
+    		}
     	}
     })
 });
+
+
+/**
+ * ClickCardDescription
+ */
+
+Crafty.scene('MemoryDescription', function() {
+	displayBackToMainMenuButton(cardFieldHeight);
+	displayBackToMenuButton(cardFieldHeight);
+	
+	
+	displayCustomText('Memory', 
+						Game.width()/2, PADDING);
+	displayStartGameButton('Memory',cardFieldHeight);
+});
+
 
 /**
  *the Memory game 
@@ -209,12 +358,18 @@ Crafty.scene('ClickCard', function() {
 
 
 Crafty.scene('Memory', function() {
+
+	
 	this.unbind('CardClicked');  
 	
-	Crafty.audio.stop();
+	initScene();
+	
+	
     displayMemoryCardsRandomly();
-    displayBackwardButton('ClickCard'); 
-    displayBackToMenuButton();
+    displayBackwardButton('ClickCardDescription', memoryCardFieldHeight); 
+    
+    displayBackToMainMenuButton(memoryCardFieldHeight);
+    displayBackToMenuButton(memoryCardFieldHeight);
     
     this.cardsLeft = cardNum;
     this.card1 = null;
@@ -261,63 +416,66 @@ Crafty.scene('Memory', function() {
 });
 
 
+Crafty.scene('ShowAssets', function(){
+	var audioArr={};
+	for (var key in Cards){
+		var curCard={};
+		curCard[key]=[0, 0, 4, 4];
+		Crafty.sprite('assets/'+Cards[key]['pict'], curCard, 0, 2);
+		var curCardAudio=Array();
+		for(var i=0;i<Cards[key]['audio'].length;++i){
+			curCardAudio[i]='assets/'+Cards[key]['audio'][i];
+		}
+		audioArr[key+'_audio']=curCardAudio;
+    }
+
+    Crafty.audio.add(audioArr);
+    Crafty.scene('Menu');
+ }
+);
+
 
 Crafty.scene('Loading', function(){
-        try{
-    // Draw some text for the player to see in case the file
-    //  takes a noticeable amount of time to load
-    Crafty.e('2D, DOM, Text')
+    	Crafty.e('2D, DOM, Text')
         .text('Loading; please wait...')
         .attr({ x: 0, y: Game.height()/2 - 24, w: Game.width() })
         .css($text_css);
+        
+        //TODO: load evert level type!
 
-    // Load our sprite map image
 
             var toLoadArr=Array();
             var i =0;
-            for (var key in Cards){
-                toLoadArr[i]='assets/'+Cards[key]['pict'];                
+            var curDict = CardsAnimals;
+            for (var key in curDict){
+                toLoadArr[i]='assets/'+curDict[key]['pict'];                
                 
                 ++i;
-                toLoadArr[i]='assets/'+Cards[key]['audio']
+                
+                for(var j=0;j<curDict[key]['audio'].length;++j){
+                	toLoadArr[i]='assets/'+curDict[key]['audio'][j];
+                	++i;
+                }
+
+            }
+            var curDict = CardsPlants;
+            for (var key in CardsPlants){
+                toLoadArr[i]='assets/'+curDict[key]['pict'];                
+                
                 ++i;
+                
+                for(var j=0;j<curDict[key]['audio'].length;++j){
+                	toLoadArr[i]='assets/'+curDict[key]['audio'][j];
+                	++i;
+                }
+
             }
             
-            
             Crafty.load(toLoadArr, function(){
-        // Once the images are loaded...
-
-        // Define the individual sprites in the image
-        // Each one (spr_tree, etc.) becomes a component
-        // These components' names are prefixed with "spr_"
-        //  to remind us that they simply cause the entity
-        //  to be drawn with a certain sprite
-           var audioArr={};
-           for (var key in Cards){
-               var curCard={};
-               curCard[key]=[0, 0, 4, 4];
-               Crafty.sprite('assets/'+Cards[key]['pict'], curCard, 0, 2);
-               audioArr[key+'_audio']=['assets/'+Cards[key]['audio']];
-           }
-           Crafty.audio.add(audioArr);
-           
-           var curCard={};
-           curCard[key]=[0, 0, 4, 4];
-
-
-        // Now that our sprites are ready to draw, start the game
-        Crafty.scene('Menu');
-    }
-
-
+            	Crafty.scene('MainMenu');
+    		}
     )
-
-
 }
-        catch(e){
-            alert(e);
-        }
-    }
 );
 
 

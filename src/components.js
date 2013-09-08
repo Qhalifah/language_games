@@ -17,6 +17,22 @@ Crafty.c('Grid', {
     }
 });
 
+Crafty.c('CardLabelBorder', {
+	    CardLabelBorder: function(imgX, imgY, imgWidth, imgHeight, initX, initY) {
+	    	this.requires('2D, DOM, span');
+	    	this.css({"border" : "solid thin white"});
+	    	this.locateMe(imgWidth, initX, initY);
+	    },
+	    locateMe: function(imgWidth, initX, initY){
+	    	this.x = initX;
+	    	this.y = initY;
+	    	
+	    	this.h = LABEL_HEIGHT;
+	    	this.w = LABEL_WIDTH;
+	    },
+   }
+);
+
 
 Crafty.c('CardLabel', {
     CardLabel: function(imgX, imgY, newText, imgWidth, imgHeight, initX, initY) {
@@ -32,7 +48,7 @@ Crafty.c('CardLabel', {
     	this._imgStartX = imgX;
     	this._imgStartY = imgY;
     	this._imgEndX= imgX + imgWidth;
-    	this._imgEndY = imgY +imgHeight;
+    	this._imgEndY = imgY +imgHeight + LABEL_HEIGHT;
     	this._imgHeight = imgHeight;
     	this._initX = initX;
     	this._initY = initY;
@@ -100,7 +116,7 @@ Crafty.c('DraggableCardLabel', {
     },
     
     placeOnPicture: function(){
-    	this.x = this._imgStartX;
+    	this.x = this._imgStartX + (CARD_WIDTH - LABEL_WIDTH)/2;
     	this.y = this._imgStartY + this._imgHeight;
     },
     
@@ -118,13 +134,15 @@ Crafty.c('CardLabelText', {
     init: function() {
         this.requires('2D, DOM, Text');
         this.textColor('#FF0000');
-        this.textFont({family:'Cambria', size: '20px'});
+        this.textFont({family:'Cambria', size: '40px'});
         this.css({
             "background-color": "#fbec5d",  
             "cursor":"pointer",
             "display":"inline-block"
         });
-        this.attr({h: 30, w: 150});
+        //this.attr({h: 30, w: 150});
+        
+        this.attr({h: LABEL_HEIGHT, w: LABEL_WIDTH});
 
     }
 });
@@ -151,16 +169,23 @@ Crafty.c('Card', {
 Crafty.c('CardAudio', {
     init: function() {
     	this.requires('Card');
+    	this.showLabelBorder();
         this.bind('Click', function(){
             this.playAudio();
         })
+    },
+    
+    showLabelBorder: function(){
+    	Crafty.e('CardLabelBorder')
+	                .CardLabelBorder(this.x, this.y, this.w, this.h,
+	                this.x + (CARD_WIDTH-LABEL_WIDTH)/2, this.y + this.h);
     },
 
     
 
     playAudio:function(){
         Crafty.audio.stop();
-        Crafty.audio.play(this._entityName+'_audio')
+        Crafty.audio.play(this._entityName+'_audio');
     },
     
     z:-1
@@ -170,19 +195,25 @@ Crafty.c('CardAudio', {
 
 
 Crafty.c('CardAudioLabel', {
+	
+	
     init: function() {
     	this.requires('CardAudio');
         this.bind('Click', function(){
             this.showLabel();
         })
     },
+    
+    
+	
+   
 
     showLabel:function(){
         try{
             if(!this.isLabelShown){
                 Crafty.e('CardLabel')
 	                .CardLabel(this.x, this.y, Cards[this._entityName]['label'], this.w, this.h,
-	                this.x, this.y + this.h);
+	                this.x + (CARD_WIDTH-LABEL_WIDTH)/2, this.y + this.h);
                 this.isLabelShown = true
             }
 
@@ -204,7 +235,9 @@ Crafty.c('CardClickBySound', {
             //Crafty.trigger('CardClicked', [this._entityName, this]);
             Crafty.trigger('CardClicked', this);
         })
-    }
+   }
+    
+    
 });
 
 
@@ -246,11 +279,13 @@ Crafty.c("Button", {
         this.requires('DOM, 2D, Mouse, Hoverable, Text');
         this.css({
             "border": "solid thin white",
-            "cursor":"pointer"
+            "cursor":"pointer",
+            "background-color":"orange",
+            "color":"black"
         });
         this.attr({h: BUTTON_HEIGHT, w: BUTTON_WIDTH});
         
-        this.textFont({family:'Cambria', size: '20px'});
+        this.textFont({family:'Cambria', size: '30px'});
     },
     setText: function(buttonLabel){
     	this.text(buttonLabel);
