@@ -1439,7 +1439,7 @@ CardsFoodEvenkiTeteya = {
         audio:['evenki/teteya/butter.wav','evenki/teteya/butter.mp3',]
     },*/
     spr_card1: {
-        label: 'херба',
+        label: 'хирба',
         pict: 'soup_thumb.jpg',
         audio: ['evenki/teteya/soup.wav', 'evenki/teteya/soup.mp3',]
     },
@@ -1449,7 +1449,7 @@ CardsFoodEvenkiTeteya = {
         audio: ['evenki/teteya/salt.wav', 'evenki/teteya/salt.mp3',]
     },
     spr_card3: {
-        label: 'клебэ',
+        label: 'колобо',
         pict: 'bread_thumb.jpg',
         audio: ['evenki/teteya/bread.wav', 'evenki/teteya/bread.mp3',]
     },
@@ -1464,7 +1464,7 @@ CardsFoodEvenkiTeteya = {
         audio: ['evenki/teteya/water.wav', 'evenki/teteya/water.mp3',]
     },
     spr_card6: {
-        label: 'улдо',
+        label: 'уллэ',
         pict: 'meat_thumb.jpg',
         audio: ['evenki/teteya/meat.wav', 'evenki/teteya/meat.mp3',]
     },
@@ -1479,6 +1479,7 @@ CardsFoodEvenkiTeteya = {
         pict:'caviar_thumb.jpg',
         audio:['evenki/teteya/caviar.wav', 'evenki/teteya/caviar.mp3',]
     },*/
+
 };
 
 
@@ -1489,7 +1490,7 @@ CardsMaterialCultureEvenkiTeteya1 = {
         audio: ['evenki/teteya/chum.wav', 'evenki/teteya/chum.mp3',]
     },
     spr_card2: {
-        label: 'гуло',
+        label: 'гулэ',
         pict: 'house_thumb.jpg',
         audio: ['evenki/teteya/house.wav', 'evenki/teteya/house.mp3',]
     },
@@ -1504,120 +1505,93 @@ CardsMaterialCultureEvenkiTeteya1 = {
         audio: ['evenki/teteya/knife.wav', 'evenki/teteya/knife.mp3',]
     },
     spr_card5: {
-        label: 'хуко',
+        label: 'хукэ',
         pict: 'axe_thumb.jpg',
         audio: ['evenki/teteya/axe.wav', 'evenki/teteya/axe.mp3',]
     },
     spr_card6: {
-        label: 'иривун',
+        label: 'калан',
         pict: 'cauldron_thumb.jpg',
         audio: ['evenki/teteya/cauldron.wav', 'evenki/teteya/cauldron.mp3',]
     },
-
     spr_card7: {
-        label: 'уӈкан',
-        pict: 'spoon_thumb.jpg',
-        audio: ['evenki/teteya/spoon.wav', 'evenki/teteya/spoon.mp3',]
-    },
-    spr_card8: {
-        label: 'ухи',
+        label: 'хэркэвун',
         pict: 'rope_thumb.jpg',
         audio: ['evenki/teteya/rope.wav', 'evenki/teteya/rope.mp3',]
     },
-    spr_card9: {
-        label: 'дяве',
+    spr_card8: {
+        label: 'дяв',
         pict: 'boat_birch_bark_thumb.jpg',
         audio: ['evenki/teteya/boat_birch_bark.wav', 'evenki/teteya/boat_birch_bark.mp3',]
     },
-    spr_card10: {
-        label: 'коӈат',
-        pict: 'boat_dugout_thumb.jpg',
-        audio: ['evenki/teteya/boat_dugout.wav', 'evenki/teteya/boat_dugout.mp3',]
-    },
-    spr_card11: {
-        label: 'киглол',
+
+    spr_card9: {
+        label: 'киллал',
         pict: 'skis_bare_thumb.jpg',
         audio: ['evenki/teteya/skis_bare.wav', 'evenki/teteya/skis_bare.mp3',]
     },
-    spr_card12: {
-        label: 'олдовун',
+    spr_card10: {
+        label: 'олловун',
         pict: 'hook_thumb.jpg',
         audio: ['evenki/teteya/hook.wav', 'evenki/teteya/hook.mp3',]
     },
-    spr_card13: {
-        label: 'того',
+    spr_card11: {
+        label: 'тоо',
         pict: 'fire_thumb.jpg',
         audio: ['evenki/teteya/fire.wav', 'evenki/teteya/fire.mp3',]
     },
-    spr_card14: {
-        label: 'урко',
+    spr_card12: {
+        label: 'уркэ',
         pict: 'door_thumb.jpg',
         audio: ['evenki/teteya/door.wav', 'evenki/teteya/door.mp3',]
     },
-    spr_card15: {
-        label: 'эмко',
+
+    spr_card13: {
+        label: 'эмкэ',
         pict: 'cradle_thumb.jpg',
         audio: ['evenki/teteya/cradle.wav', 'evenki/teteya/cradle.mp3',]
     },
-    spr_card16: {
+    spr_card14: {
         label: 'уливун',
         pict: 'oar_thumb.jpg',
         audio: ['evenki/teteya/oar.wav', 'evenki/teteya/oar.mp3',]
     },
-
-    spr_card17: {
-        label: 'халка',
-        pict: 'hammer_thumb.jpg',
-        audio: ['evenki/teteya/hammer.wav', 'evenki/teteya/hammer.mp3',]
-    },
-
-    spr_card18: {
-        label: 'мавут',
-        pict: 'lasso_thumb.jpg',
-        audio: ['evenki/teteya/lasso.wav', 'evenki/teteya/lasso.mp3',]
-    },
-
-    spr_card19: {
-        label: 'хулда',
-        pict: 'blanket_thumb.jpg',
-        audio: ['evenki/teteya/blanket.wav', 'evenki/teteya/blanket.mp3',]
-    },
-
-    spr_card20: {
-        label: 'тэру',
-        pict: 'pillow_thumb.jpg',
-        audio: ['evenki/teteya/pillow.wav', 'evenki/teteya/pillow.mp3',]
-    },
-    spr_card21: {
+    spr_card15: {
         label: 'адыл',
         pict: 'net_thumb.jpg',
         audio: ['evenki/teteya/net.wav', 'evenki/teteya/net.mp3',]
     },
-    spr_card22: {
-        label: 'холо',
+    spr_card16: {
+        label: 'пэктыровун',
         pict: 'gun_thumb.jpg',
         audio: ['evenki/teteya/gun.wav', 'evenki/teteya/gun.mp3',]
     },
-    spr_card23: {
+    spr_card17: {
         label: 'гулувун',
         pict: 'fireplace_thumb.jpg',
         audio: ['evenki/teteya/fireplace.wav', 'evenki/teteya/fireplace.mp3',]
     },
-    spr_card24: {
-        label: 'хуксилдал',
-        pict: 'skis_skins_thumb.jpg',
-        audio: ['evenki/teteya/skis_skins.wav', 'evenki/teteya/skis_skins.mp3',]
+    spr_card18: {
+        label: 'гуявун',
+        pict: 'bitok_thumb.jpg',
+        audio: ['evenki/teteya/bitok.wav', 'evenki/teteya/bitok.mp3',]
     },
+    spr_card19: {
+        label: 'мол',
+        pict: 'fire_wood_thumb.jpg',
+        audio: ['evenki/teteya/fire_wood.wav', 'evenki/teteya/fire_wood.mp3',]
+    },
+
 };
 
 CardsFamilyEvenkiTeteya1 = {
     spr_card1: {
-        label: 'эни',
+        label: 'энин',
         pict: 'mother_thumb.jpg',
         audio: ['evenki/teteya/mother.wav', 'evenki/teteya/mother.mp3',]
     },
     spr_card2: {
-        label: 'ами',
+        label: 'амин',
         pict: 'father_thumb.jpg',
         audio: ['evenki/teteya/father.wav', 'evenki/teteya/father.mp3',]
     },
@@ -1627,37 +1601,16 @@ CardsFamilyEvenkiTeteya1 = {
         audio: ['evenki/teteya/grandfather.wav', 'evenki/teteya/grandfather.mp3',]
     },
     spr_card4: {
-        label: 'эбэко',
+        label: 'онёко',
         pict: 'grandmother_thumb.jpg',
         audio: ['evenki/teteya/grandmother.wav', 'evenki/teteya/grandmother.mp3',]
     },
-
     spr_card5: {
-        label: 'аки',
-        pict: 'elder_brother_thumb.jpg',
-        audio: ['evenki/teteya/elder_brother.wav', 'evenki/teteya/elder_brother.mp3',]
-    },
-    spr_card6: {
-        label: 'нэкун',
-        pict: 'younger_brother_thumb.jpg',
-        audio: ['evenki/teteya/younger_brother.wav', 'evenki/teteya/younger_brother.mp3',]
-    },
-    spr_card7: {
-        label: 'экин',
-        pict: 'elder_sister_thumb.jpg',
-        audio: ['evenki/teteya/elder_sister.wav', 'evenki/teteya/elder_sister.mp3',]
-    },
-    spr_card8: {
-        label: 'нэкун',
-        pict: 'younger_sister_thumb.jpg',
-        audio: ['evenki/teteya/younger_sister.wav', 'evenki/teteya/younger_sister.mp3',]
-    },
-    spr_card9: {
         label: 'хунат',
         pict: 'daughter_thumb.jpg',
         audio: ['evenki/teteya/daughter.wav', 'evenki/teteya/daughter.mp3',]
     },
-    spr_card10: {
+    spr_card6: {
         label: 'омолги',
         pict: 'son_thumb.jpg',
         audio: ['evenki/teteya/son.wav', 'evenki/teteya/son.mp3',]
