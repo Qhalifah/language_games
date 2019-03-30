@@ -479,7 +479,7 @@ Crafty.scene('MainMenu', function() {
 	//$('.info').css('position', 'relative');    
 	
 	$(".info").css({height: MAX_MENU_HEIGHT, width : MAX_MENU_WIDTH});
-	$(".info").offset({top: 40, left : LEFT_OFFSET_ALL_ELEMENTS});
+	$(".info").offset({top: 45, left : LEFT_OFFSET_ALL_ELEMENTS});
 	        
 	
 	displayGameTypes();
@@ -1062,7 +1062,7 @@ function displayTypeTopicDetails(){
 	
 	
 	$(".paramets").css({height: 20, width : MAX_WIDTH_PARAMS});
-	$(".paramets").offset({top: 40, left : LEFT_OFFSET_ALL_ELEMENTS});
+	$(".paramets").offset({top: 55, left : LEFT_OFFSET_ALL_ELEMENTS});
 	
 	
 

@@ -1,42 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <META http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <META http-equiv="Content-Type" content="text/html; charset=utf-8">
+    	
+    <link rel="stylesheet" type="text/css" href="css/gameStyle.css" media="screen">
     <script src="lib/crafty.js"></script>
+    
+    <script src="src/game.js"></script>
     <script src="src/settings.js"></script>
     <script src="src/labels.js"></script>
-    <script src="src/game.js"></script>
     <script src="src/components.js"></script>
     <script src="src/scenes.js"></script>
-    <script>
-        window.addEventListener('load', Game.start);
-    </script>
+    <script src="src/descriptions.js"></script>
+    <script src="src/languageHierarchy.js"></script>
+    
+    <script type="text/javascript" src="lib/jquery-latest.min.js"></script>
+    
+    
+    <script type="text/javascript" src="lib/jquery-ui.js"></script>
+    
     <style type="text/css" media="screen">
-        body {
-            background: black;
-            text-align: center;
-            color: #DDD;
-            font-family: Arial;
-        }
+        
 
-        .controls {
-            color: #BBB;
-        }
 
-        #cr-stage { margin: 20px auto 0; }
+        #cr-stage { margin: 0px auto 0; }
+        
+        
+        
 
-        .bottom {
-            font-size: 12px;
-            color: #888;
-            margin-top: 50px;
-        }
-
-        .bottom a {
-            color: #AAA;
-        }
     </style>
+    <script>
+    	
+        window.addEventListener('load', initGame);
+        
+        function initGame(){
+        	PopUpHide();
+        	PopUpDownloadHide();
+        	Game.start();
+        	$("#popup").bind("click", function(){
+        		PopUpHide();
+        	});
+        	$("#popupDownload").bind("click", function(){
+        		PopUpDownloadHide();
+        	});
+        	
+        	$(".success-popup-content").bind("click", function(event){
+        		event.stopPropagation();
+        	});
+        	
+        	
+        	
+        	$("#downloadType").bind("click", function(){
+        		var typeChosen = $('input[name=downloadType]:checked', '#formDownloadType').val();
+        		var href="siberian-lang_games" + "_" + typeChosen + ".zip";
+        		window.open(href, '_blank');
+        		PopUpDownloadHide();
+        	});
+        	
+        	$("#cancelDownload").bind("click", function(){
+        		PopUpDownloadHide();
+        	});
+        }
+    </script>
 </head>
 <body>
 <div id="cr-stage"></div>
+<div class="success-popup" id="popup">
+    <div class="success-popup-content">
+    	<a href="javascript:PopUpHide()" class="popupButton">×</a>
+    	<div class="success-popup-main">
+        Поздравляем! Вы успешно прошли этот уровень.
+        </div>
+        <div class="success-popup-recommend-header">
+        <i>Что дальше?</i> Можно <span class="success-popup-recommend-word">сыграть еще раз.</span> Или перейти на <span class="success-popup-recommend-word">другой уровень.</span>
+        </div>
+        <div class="success-popup-recommend">
+        Чтобы выбрать <span class="success-popup-recommend-word">другую игру</span> или <span class="success-popup-recommend-word">другую тему,</span> нажмите вверху на название игры.
+        </div>
+        <div class="success-popup-recommend">
+        	Чтобы выбрать <span class="success-popup-recommend-word">другой язык,</span> нажмите вверху на название языка.
+        </div>
+    </div>
+</div>
+<div class="success-popup" id="popupDownload">
+    <div class="success-popup-content">
+    	<a href="javascript:PopUpDownloadHide()" class="popupButton">×</a>
+    	<div class="success-popup-main download-recommend">Вы можете выбрать, скачивать все игры<br>или только игры для конкретного языка.</div>
+    	<form  id="formDownloadType">
+        	<input type="radio" name="downloadType" class="downloadTypeRadio" value="all" checked>Все языки<br>
+   			<input type="radio" name="downloadType" class="downloadTypeRadio" value="evenki">Только эвенкийский<br>
+   			<input type="radio" name="downloadType" class="downloadTypeRadio" value="selkup">Только селькупский<br>
+        	<input type="radio" name="downloadType" class="downloadTypeRadio" value="ket">Только кетский<br>
+        	
+      </form>
+      <div class="downloadButtons">
+      	<span class="downloadLinkWithTypes" id="downloadType">Скачать</span>
+      	<span class="downloadLinkWithTypes" id="cancelDownload">Отмена</span>
+      </div> 
+    </div>
+</div>
 </body>
 </html>
